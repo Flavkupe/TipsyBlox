@@ -25,6 +25,10 @@ public class Zone : MonoBehaviour {
             {
                 block.Match();
             }
-        }
+        }               
+    }
+
+    public virtual void InitZone()
+    {
     }
 }

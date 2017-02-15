@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,19 +9,30 @@ public class LevelRotato : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        Input.gyro.enabled = true;
+
+        StartCoroutine(LogGyro());
+    }
 	
 	// Update is called once per frame
-	void Update () {
-		if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            this.transform.Rotate(Vector3.forward, 1.0f);            
-        }
+	void FixedUpdate () {
+        Physics2D.gravity = Input.gyro.gravity * 9.81f;
+    }
 
-        if (Input.GetKey(KeyCode.RightArrow))
+    private IEnumerator LogGyro()
+    {
+        while (true)
         {
-            this.transform.Rotate(Vector3.forward, -1.0f);
+            
+            Debug.Log("Attitude: " + Input.gyro.attitude);
+
+            float angle;
+            Vector3 axis;
+            Input.gyro.attitude.ToAngleAxis(out angle, out axis);
+            Debug.Log("Angle: " + angle);
+            Debug.Log("Axis: " + axis);
+
+            yield return new WaitForSeconds(3);
         }
     }
 }

@@ -21,7 +21,8 @@ public class Block : MonoBehaviour {
 
     public void Match()
     {
-        Destroy(this.gameObject, 0.5f);
+        LevelManager.Instance.MatchBlock(this);
+        Destroy(this.gameObject);
     }
 }
 
@@ -37,5 +38,6 @@ public enum BlockColor
     Red,
     Blue,
     Green,
-    Yellow
+    Yellow,
+    None
 }
