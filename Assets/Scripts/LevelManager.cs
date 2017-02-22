@@ -3,16 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System;
+using UnityEngine.UI;
+
+[Serializable]
+public class LevelReqs
+{
+    public float AReq;
+    public float BReq;    
+}
 
 public class LevelManager : Singleton<LevelManager> {
 
-    public int ThisLevel;
+    public int ThisLevel;    
 
     public List<Block> Blocks;
 
-    public string NextSceneName;
-
     public List<Zone> Zones;
+
+    public LevelReqs Reqs = new LevelReqs();
+
+    public GameObject EndLevelMenu;
+
+    public Text TimerText;
+
+    private float timer = 0.0f;
+
+    private GameObject cube;
 
     public void MatchBlock(Block block)
     {
@@ -30,6 +47,9 @@ public class LevelManager : Singleton<LevelManager> {
     void Start () {
         instance = this;
 
+        this.cube = Instantiate(Resources.Load("GradeCube")) as GameObject;
+        this.cube.SetActive(false);
+
         if (PlayerManager.Instance == null)
         {
             Instantiate(PlayerManagerTemplate);
@@ -43,12 +63,86 @@ public class LevelManager : Singleton<LevelManager> {
             zone.InitZone();
         }
     }
-	
+
+    private bool beatLevel = false;
+
 	// Update is called once per frame
 	void Update () {
-		if (this.Blocks.Count == 0)
+
+        if (beatLevel)
         {
-            SceneManager.LoadScene(NextSceneName);
+            return;
+        }
+
+        this.timer += Time.deltaTime;
+        
+        this.TimerText.text = this.timer.ToString("N2");
+
+        if (this.Blocks.Count == 0)
+        {
+            beatLevel = true;
+            StartCoroutine(BeatLevel());
         }
 	}
+
+    private IEnumerator BeatLevel()
+    {        
+        if (this.timer <= this.Reqs.AReq)
+        {
+            // The "A" face
+            cube.transform.eulerAngles = new Vector3(0, -90.0f, 0);
+        }
+        else if (this.timer <= this.Reqs.BReq)
+        {
+            // The "B" face
+            cube.transform.eulerAngles = new Vector3(0, 180.0f, 0);
+        }
+        else
+        {
+            // The "C" face
+            cube.transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+
+        cube.SetActive(true);
+        cube.transform.position = new Vector3(-11, 0, -1);
+
+        yield return StartCoroutine(SlideTo(cube, new Vector3(0, 0, -1), 2.0f));
+        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(SlideTo(cube, new Vector3(-1.0f, 0, -1), 5.0f));
+        yield return StartCoroutine(SlideTo(cube, new Vector3(11.0f, 0, -1), 5.0f));
+
+        this.ShowEndMenu();
+    }
+
+    public void ShowEndMenu()
+    {
+        if (this.EndLevelMenu != null)
+        {
+            this.EndLevelMenu.SetActive(true);
+        }
+        else
+        {
+            this.NextLevel();
+        }        
+    }
+
+    public void NextLevel()
+    {
+        string next = "Level" + (this.ThisLevel + 1);
+        SceneManager.LoadScene(next);
+    }
+
+    public void ResetLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private IEnumerator SlideTo(GameObject obj, Vector3 target, float speed)
+    {
+        while (Vector3.Distance(obj.transform.position, target) > 0.1f)
+        {
+            obj.transform.position = Vector3.Lerp(obj.transform.position, target, 0.03f * speed);
+            yield return null;
+        }
+    }
 }

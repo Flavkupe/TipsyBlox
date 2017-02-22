@@ -7,7 +7,7 @@ public class Block : MonoBehaviour {
 
     public BlockShape Shape;
 
-    public BlockColor Color;
+    public BlockColor Color;    
 
     // Use this for initialization
     void Start () {
@@ -22,7 +22,21 @@ public class Block : MonoBehaviour {
     public void Match()
     {
         LevelManager.Instance.MatchBlock(this);
-        Destroy(this.gameObject);
+        StartCoroutine(this.Shrink());
+        Destroy(this.gameObject, 0.3f);
+    }
+
+    private IEnumerator Shrink()
+    {
+        while (this.gameObject != null && this.transform.localScale.x > 0.0)
+        {
+            if (this.gameObject != null)
+            {
+                this.transform.localScale *= 0.98f;                    
+            }
+
+            yield return null;
+        }
     }
 }
 
