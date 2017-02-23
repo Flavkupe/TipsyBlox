@@ -80,7 +80,7 @@ public class LevelManager : Singleton<LevelManager> {
 
         if (this.Blocks.Count == 0)
         {
-            beatLevel = true;
+            beatLevel = true;            
             StartCoroutine(BeatLevel());
         }
 	}
@@ -124,6 +124,11 @@ public class LevelManager : Singleton<LevelManager> {
         {
             this.NextLevel();
         }        
+    }
+
+    public void PlayerDied()
+    {
+        this.ResetLevel();
     }
 
     public void NextLevel()
