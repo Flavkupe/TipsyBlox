@@ -21,11 +21,7 @@ public class LevelManager : Singleton<LevelManager> {
 
     public List<Zone> Zones;
 
-    public LevelReqs Reqs = new LevelReqs();
-
-    public GameObject EndLevelMenu;
-
-    public Text TimerText;
+    public LevelReqs Reqs = new LevelReqs();    
 
     private float timer = 0.0f;
 
@@ -45,7 +41,7 @@ public class LevelManager : Singleton<LevelManager> {
 
     // Use this for initialization
     void Start () {
-        instance = this;
+        instance = this;        
 
         this.cube = Instantiate(Resources.Load("GradeCube")) as GameObject;
         this.cube.SetActive(false);
@@ -55,8 +51,8 @@ public class LevelManager : Singleton<LevelManager> {
             Instantiate(PlayerManagerTemplate);
         }
 
-        this.Blocks = GameObject.FindGameObjectsWithTag("Block").Select(a => a.GetComponent<Block>()).Where(b => b != null).ToList();
-        this.Zones = GameObject.FindGameObjectsWithTag("Zone").Select(a => a.GetComponent<Zone>()).Where(b => b != null).ToList();
+        this.Blocks = GameObject.FindObjectsOfType<Block>().Select(a => a.GetComponent<Block>()).Where(b => b != null).ToList();
+        this.Zones = GameObject.FindObjectsOfType<Zone>().Select(a => a.GetComponent<Zone>()).Where(b => b != null).ToList();
 
         foreach (Zone zone in this.Zones)
         {
@@ -75,8 +71,8 @@ public class LevelManager : Singleton<LevelManager> {
         }
 
         this.timer += Time.deltaTime;
-        
-        this.TimerText.text = this.timer.ToString("N2");
+
+        LevelUICanvas.Instance.TimerText.text = this.timer.ToString("N2");
 
         if (this.Blocks.Count == 0)
         {
@@ -116,9 +112,9 @@ public class LevelManager : Singleton<LevelManager> {
 
     public void ShowEndMenu()
     {
-        if (this.EndLevelMenu != null)
+        if (LevelUICanvas.Instance.EndLevelMenu != null)
         {
-            this.EndLevelMenu.SetActive(true);
+            LevelUICanvas.Instance.EndLevelMenu.SetActive(true);
         }
         else
         {

@@ -81,12 +81,15 @@
     <Compile Include="Assets\Scripts\DeathOnTouch.cs" />
     <Compile Include="Assets\Scripts\LevelManager.cs" />
     <Compile Include="Assets\Scripts\LevelRotato.cs" />
+    <Compile Include="Assets\Scripts\LevelUICanvas.cs" />
+    <Compile Include="Assets\Scripts\ObjectRotato.cs" />
     <Compile Include="Assets\Scripts\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\RotateAroundPivot.cs" />
     <Compile Include="Assets\Scripts\ShapeBlockingZone.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\TriggeredGate.cs" />
     <Compile Include="Assets\Scripts\Utils.cs" />
+    <Compile Include="Assets\Scripts\WindEffector.cs" />
     <Compile Include="Assets\Scripts\Zone.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
