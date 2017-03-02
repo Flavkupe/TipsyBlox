@@ -78,6 +78,8 @@
     <Compile Include="Assets\Scripts\ActivateOnTouch.cs" />
     <Compile Include="Assets\Scripts\Block.cs" />
     <Compile Include="Assets\Scripts\ColorBlockingZone.cs" />
+    <Compile Include="Assets\Scripts\ColorLockZone.cs" />
+    <Compile Include="Assets\Scripts\ColorLockZoneTrigger.cs" />
     <Compile Include="Assets\Scripts\DeathOnTouch.cs" />
     <Compile Include="Assets\Scripts\LevelManager.cs" />
     <Compile Include="Assets\Scripts\LevelRotato.cs" />
