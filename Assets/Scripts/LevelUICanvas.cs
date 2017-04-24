@@ -9,8 +9,10 @@ public class LevelUICanvas : Singleton<LevelUICanvas>
 
     public Text TimerText;
 
-	// Use this for initialization
-	void Start () {
+    public Button MenuButton;
+
+    // Use this for initialization
+    void Start () {
         instance = this;
 	}
 	
@@ -18,6 +20,19 @@ public class LevelUICanvas : Singleton<LevelUICanvas>
 	void Update () {
 		
 	}
+
+    public void ToggleMenu()
+    {
+        this.EndLevelMenu.SetActive(!this.EndLevelMenu.activeSelf);
+        if (this.EndLevelMenu.activeSelf)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
 
     public void NextLevel()
     {
@@ -27,5 +42,10 @@ public class LevelUICanvas : Singleton<LevelUICanvas>
     public void ResetLevel()
     {
         LevelManager.Instance.ResetLevel();        
+    }
+
+    public void HomeClicked()
+    {
+        LevelManager.Instance.GoHome();
     }
 }

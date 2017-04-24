@@ -13,15 +13,15 @@ public class LevelReqs
     public float BReq;    
 }
 
-public class LevelManager : Singleton<LevelManager> {
-
+public class LevelManager : Singleton<LevelManager>
+{
     public int ThisLevel;    
 
-    public List<Block> Blocks;
+    public List<Block> Blocks;  
 
     public List<Zone> Zones;
 
-    public LevelReqs Reqs = new LevelReqs();    
+    public LevelReqs Reqs = new LevelReqs();
 
     private float timer = 0.0f;
 
@@ -40,8 +40,11 @@ public class LevelManager : Singleton<LevelManager> {
     public PlayerManager PlayerManagerTemplate;
 
     // Use this for initialization
-    void Start () {
-        instance = this;        
+    void Start ()
+    {
+        instance = this;
+
+        Time.timeScale = 1;
 
         this.cube = Instantiate(Resources.Load("GradeCube")) as GameObject;
         this.cube.SetActive(false);
@@ -60,11 +63,15 @@ public class LevelManager : Singleton<LevelManager> {
         }
     }
 
+    public void GoHome()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     private bool beatLevel = false;
-
-	// Update is called once per frame
-	void Update () {
-
+    
+	void Update ()
+    {
         if (beatLevel)
         {
             return;
@@ -129,13 +136,14 @@ public class LevelManager : Singleton<LevelManager> {
 
     public void NextLevel()
     {
-        string next = "Level" + (this.ThisLevel + 1);
-        SceneManager.LoadScene(next);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);        
     }
 
     public void ResetLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);        
     }
 
     private IEnumerator SlideTo(GameObject obj, Vector3 target, float speed)
