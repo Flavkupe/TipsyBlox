@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelButton : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class LevelButton : MonoBehaviour
     public TextMeshProUGUI Text;
 
     public TextMeshProUGUI NameText;
+
+    public Button Button;
 
     public void ButtonClicked()
     {

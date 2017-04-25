@@ -96,6 +96,7 @@
     <Compile Include="Assets\Scripts\ObjectRotato.cs" />
     <Compile Include="Assets\Scripts\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\RotateAroundPivot.cs" />
+    <Compile Include="Assets\Scripts\SerializationManager.cs" />
     <Compile Include="Assets\Scripts\ShapeBlockingZone.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\StageSelectManager.cs" />

@@ -89,7 +89,11 @@ public class LevelManager : Singleton<LevelManager>
 	}
 
     private IEnumerator BeatLevel()
-    {        
+    {
+        int sceneNum = SceneManager.GetActiveScene().buildIndex + 1;
+        PlayerManager.Instance.MaxLevel = Mathf.Max(sceneNum, PlayerManager.Instance.MaxLevel);
+        SerializationManager.Instance.Save();
+
         if (this.timer <= this.Reqs.AReq)
         {
             // The "A" face
@@ -122,6 +126,7 @@ public class LevelManager : Singleton<LevelManager>
         if (LevelUICanvas.Instance.EndLevelMenu != null)
         {
             LevelUICanvas.Instance.EndLevelMenu.SetActive(true);
+            LevelUICanvas.Instance.NextLevelButton.interactable = true;
         }
         else
         {
@@ -137,7 +142,8 @@ public class LevelManager : Singleton<LevelManager>
     public void NextLevel()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);        
+        int sceneNum = SceneManager.GetActiveScene().buildIndex + 1;
+        SceneManager.LoadScene(sceneNum);                
     }
 
     public void ResetLevel()

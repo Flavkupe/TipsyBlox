@@ -40,17 +40,19 @@ public class StageSelectManager : MonoBehaviour
             button.SetText((currLevel - 1).ToString());
             button.SetNameText(sceneName);
             button.Level = currLevel;
+            if (PlayerManager.Instance != null && currLevel > PlayerManager.Instance.MaxLevel)
+            {
+                button.Button.interactable = false;
+            }
+
             currLevel++;
-            x += 96;
-            if (x > (96 * 3))
+            x += 128;
+            if (x > (128 * 3))
             {
                 x = 64;
                 y -= 128;
             }
-        }
-
-        
-
+        }      
     }
 	
 	// Update is called once per frame

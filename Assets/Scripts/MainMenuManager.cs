@@ -10,6 +10,7 @@ public class MainMenuManager : MonoBehaviour
     
     void Start () {
         Time.timeScale = 1;
+        SerializationManager.Instance.Load();
     }
 	
 	// Update is called once per frame
