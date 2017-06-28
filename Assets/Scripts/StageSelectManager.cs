@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +10,8 @@ public class StageSelectManager : MonoBehaviour
     public Text TitleText;
 
     public RectTransform Content;
+
+    public string[] SceneNames;
 
     public LevelButton LevelButtonTemplate;
 
@@ -24,10 +25,9 @@ public class StageSelectManager : MonoBehaviour
 
         int currLevel = 2;
 
-        foreach (EditorBuildSettingsScene buildScene in EditorBuildSettings.scenes)
+        foreach (string sceneName in SceneNames)
         {            
-            LevelButton button = Instantiate(LevelButtonTemplate);            
-            string sceneName = Path.GetFileNameWithoutExtension(buildScene.path);
+            LevelButton button = Instantiate(LevelButtonTemplate);
             if (sceneName.StartsWith("_"))
             {
                 continue;
@@ -54,9 +54,28 @@ public class StageSelectManager : MonoBehaviour
             }
         }      
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+#if UNITY_EDITOR
+
+    [UnityEditor.MenuItem("CONTEXT/StageSelectManager/Update Scene Names")]
+    private static void UpdateNames(UnityEditor.MenuCommand command)
+    {
+        StageSelectManager obj = command.context as StageSelectManager;
+        List<string> names = new List<string>();        
+        foreach (UnityEditor.EditorBuildSettingsScene buildScene in UnityEditor.EditorBuildSettings.scenes)
+        {
+            string sceneName = Path.GetFileNameWithoutExtension(buildScene.path);
+            names.Add(sceneName);
+        }
+
+        obj.SceneNames = names.ToArray();
+        UnityEditor.EditorUtility.SetDirty(obj);
+    }
+
+#endif
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 

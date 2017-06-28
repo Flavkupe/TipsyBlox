@@ -23,7 +23,7 @@ public class LevelUICanvas : Singleton<LevelUICanvas>
     void Start ()
     {
         Scene current = SceneManager.GetActiveScene();
-        if (PlayerManager.Instance.MaxLevel < current.buildIndex)
+        if (PlayerManager.Instance.MaxLevel <= current.buildIndex)
         {
             this.NextLevelButton.interactable = false;
         }
