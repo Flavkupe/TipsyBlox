@@ -18,6 +18,8 @@ public class StageSelectManager : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        float scaleFactor = (float)Screen.width / 800.0f;
+
         Time.timeScale = 1;
 
         int x = 64;
@@ -33,9 +35,13 @@ public class StageSelectManager : MonoBehaviour
                 continue;
             }
 
-            button.transform.SetParent(this.Content.transform);
-            button.transform.localPosition = new Vector3(x, y);
+            button.transform.localScale *= scaleFactor;
+            button.transform.SetParent(this.Content.transform, true);
             
+            
+
+            //button.transform.localPosition = new Vector3(x, y);
+
             // Note: first 2 stages are special
             button.SetText((currLevel - 1).ToString());
             button.SetNameText(sceneName);
@@ -46,12 +52,13 @@ public class StageSelectManager : MonoBehaviour
             }
 
             currLevel++;
-            x += 128;
-            if (x > (128 * 3))
-            {
-                x = 64;
-                y -= 128;
-            }
+            
+            //x += 128;
+            //if (x > (128 * 3))
+            //{
+            //    x = 64;
+            //    y -= 128;
+            //}
         }      
     }
 

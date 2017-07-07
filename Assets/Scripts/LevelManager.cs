@@ -15,7 +15,9 @@ public class LevelReqs
 
 public class LevelManager : Singleton<LevelManager>
 {
-    public int ThisLevel;    
+    public int ThisLevel;
+
+    public bool LastLevel = false;
 
     public List<Block> Blocks;  
 
@@ -142,7 +144,7 @@ public class LevelManager : Singleton<LevelManager>
     public void NextLevel()
     {
         Time.timeScale = 1;
-        int sceneNum = SceneManager.GetActiveScene().buildIndex + 1;
+        int sceneNum = this.LastLevel ? 0 : SceneManager.GetActiveScene().buildIndex + 1;
         SceneManager.LoadScene(sceneNum);                
     }
 

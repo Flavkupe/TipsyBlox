@@ -57,7 +57,7 @@ public class SerializationManager : MonoBehaviour
     public void Save()
     {
         try
-        {
+        {            
             SaveData data = new SaveData();
             data.Scores = PlayerManager.Instance.LevelScores;
             data.MaxLevel = PlayerManager.Instance.MaxLevel;
