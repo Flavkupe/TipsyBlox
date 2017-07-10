@@ -1,6 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
+
+
+[Serializable]
+public class DictionaryOfIntAndInt : Dictionary<int, int>
+{
+    public DictionaryOfIntAndInt() { }
+    protected DictionaryOfIntAndInt(SerializationInfo info, StreamingContext ctx) : base(info, ctx) {}
+}
 
 public static class Utils
 {
@@ -23,5 +33,13 @@ public static class Utils
         }
 
         return angle;
+    }
+
+    public static void PlayClipFromPlayer(this MonoBehaviour me, AudioClip clip)
+    {
+        if (PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.PlaySound(clip);
+        }
     }
 }

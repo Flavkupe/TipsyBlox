@@ -31,8 +31,12 @@ public class LevelUICanvas : Singleton<LevelUICanvas>
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
+
+    public void PlayClip(AudioClip clip)
+    {
+        this.PlayClipFromPlayer(clip);
+    }
 
     public void ToggleMenu()
     {

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DeathOnTouch : MonoBehaviour {
 
+    public AudioClip DieSound;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -18,6 +20,7 @@ public class DeathOnTouch : MonoBehaviour {
     {
         if (col.gameObject.tag == "Block")
         {
+            PlayerManager.Instance.PlaySound(DieSound);
             LevelManager.Instance.PlayerDied();
         }
     }

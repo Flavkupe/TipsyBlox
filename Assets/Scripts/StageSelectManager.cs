@@ -36,9 +36,7 @@ public class StageSelectManager : MonoBehaviour
             }
 
             button.transform.localScale *= scaleFactor;
-            button.transform.SetParent(this.Content.transform, true);
-            
-            
+            button.transform.SetParent(this.Content.transform, true);                        
 
             //button.transform.localPosition = new Vector3(x, y);
 
@@ -51,14 +49,26 @@ public class StageSelectManager : MonoBehaviour
                 button.Button.interactable = false;
             }
 
-            currLevel++;
-            
-            //x += 128;
-            //if (x > (128 * 3))
-            //{
-            //    x = 64;
-            //    y -= 128;
-            //}
+            // currLevel + 1 because first two levels are special
+            if (PlayerManager.Instance.Grades.ContainsKey(currLevel + 1))
+            {
+                switch (PlayerManager.Instance.Grades[currLevel + 1])
+                {
+                    case 1:
+                        button.GradeC.SetActive(true);
+                        break;
+                    case 2:
+                        button.GradeB.SetActive(true);
+                        break;
+                    case 3:
+                        button.GradeA.SetActive(true);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            currLevel++;           
         }      
     }
 

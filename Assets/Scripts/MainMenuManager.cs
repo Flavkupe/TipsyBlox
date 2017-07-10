@@ -18,6 +18,11 @@ public class MainMenuManager : MonoBehaviour
 		
 	}
 
+    public void PlayClip(AudioClip clip)
+    {
+        this.PlayClipFromPlayer(clip);
+    }
+
     public void StartClicked()
     {
         SceneManager.LoadScene(2);

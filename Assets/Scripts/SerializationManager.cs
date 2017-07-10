@@ -10,7 +10,12 @@ using UnityEngine;
 [Serializable]
 public class SaveData : ISerializable
 {
-    public Dictionary<int, int> Scores = new Dictionary<int, int>();
+    public DictionaryOfIntAndInt Scores = new DictionaryOfIntAndInt();
+
+    public DictionaryOfIntAndInt Grades = new DictionaryOfIntAndInt();
+
+    public List<int> test = new List<int>();
+
     public int MaxLevel = 0;
 
     public SaveData()
@@ -19,23 +24,35 @@ public class SaveData : ISerializable
 
     public SaveData (SerializationInfo info, StreamingContext context)
     {
+        //try
+        //{
+        //    Scores = (DictionaryOfIntAndInt)info.GetValue("Scores", typeof(DictionaryOfIntAndInt));
+        //} catch {}
+
         try
         {
-            Scores = (Dictionary<int, int>)info.GetValue("Scores", typeof(Dictionary<int, int>));
-        } catch {}
-                       
+            Grades = (DictionaryOfIntAndInt)info.GetValue("Grades", typeof(DictionaryOfIntAndInt));
+        }
+        catch
+        {
+        }        
+
         try
         {
             MaxLevel = info.GetInt32("MaxLevel");
-        } catch {}
+        } catch
+        {
+        }
     }
 
     public void GetObjectData(SerializationInfo info, StreamingContext context)
-    {
-        info.AddValue("Scores", Scores, typeof(Dictionary<int, int>));
+    {        
+        info.AddValue("Grades", Grades, typeof(DictionaryOfIntAndInt));
+        info.AddValue("test", test, typeof(List<int>));
         info.AddValue("MaxLevel", MaxLevel);
-    }
+    }    
 }
+
 
 public class SerializationManager : MonoBehaviour
 {
@@ -59,8 +76,9 @@ public class SerializationManager : MonoBehaviour
         try
         {            
             SaveData data = new SaveData();
-            data.Scores = PlayerManager.Instance.LevelScores;
+            data.Grades = PlayerManager.Instance.Grades;            
             data.MaxLevel = PlayerManager.Instance.MaxLevel;
+            data.test = new List<int>() { 1, 2, 3 };
 
             using (Stream stream = File.Open(FilePath, FileMode.OpenOrCreate))
             {
@@ -94,10 +112,10 @@ public class SerializationManager : MonoBehaviour
 
             if (data != null)
             {
-                PlayerManager.Instance.LevelScores = data.Scores;
+                PlayerManager.Instance.Grades = data.Grades;
                 PlayerManager.Instance.MaxLevel = data.MaxLevel;
             }
-        }        
+        }
         catch (Exception ex)
         {
             Debug.LogError(ex);

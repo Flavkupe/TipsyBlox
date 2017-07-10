@@ -7,12 +7,17 @@ public class Block : MonoBehaviour {
 
     public BlockShape Shape;
 
-    public BlockColor Color;    
+    public BlockColor Color;
+
+    private Rigidbody2D body;
+
+    public AudioClip TocSound;
+    public AudioClip HitGoalSound;
 
     // Use this for initialization
     void Start () {
-		
-	}
+        this.body = this.GetComponent<Rigidbody2D>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -23,6 +28,11 @@ public class Block : MonoBehaviour {
     {
         LevelManager.Instance.MatchBlock(this);
         StartCoroutine(this.Shrink());
+        if (HitGoalSound != null)
+        {
+            PlayerManager.Instance.PlaySound(HitGoalSound);
+        }
+
         Destroy(this.gameObject, 0.3f);
     }
 
@@ -36,6 +46,15 @@ public class Block : MonoBehaviour {
             }
 
             yield return null;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (TocSound != null && this.body.velocity.magnitude > 3.0f)
+        {
+            float vol = Mathf.Min(1.0f, 6.0f / this.body.velocity.magnitude);
+            PlayerManager.Instance.PlaySound(TocSound, vol);
         }
     }
 }

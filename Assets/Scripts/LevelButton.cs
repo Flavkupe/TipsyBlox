@@ -15,13 +15,22 @@ public class LevelButton : MonoBehaviour
 
     public Button Button;
 
+    public GameObject GradeA;
+    public GameObject GradeB;
+    public GameObject GradeC;
+
     public void ButtonClicked()
     {
         SceneManager.LoadScene(Level);
     }
 
-	// Use this for initialization
-	void Start ()
+    public void PlayClip(AudioClip clip)
+    {
+        this.PlayClipFromPlayer(clip);
+    }
+
+    // Use this for initialization
+    void Start ()
     {
 	}
 	

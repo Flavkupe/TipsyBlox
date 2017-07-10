@@ -17,6 +17,8 @@ public class TriggeredGate : MonoBehaviour {
 
     private bool activated = false;
 
+    public AudioClip OpenSound;
+
     // Use this for initialization
     void Start () {
 		
@@ -57,6 +59,7 @@ public class TriggeredGate : MonoBehaviour {
                 massCount += otherBody.mass;
                 if (massCount >= this.MassReq)
                 {
+                    PlayerManager.Instance.PlaySound(this.OpenSound);
                     this.ActivateGate();
                 }
             } 

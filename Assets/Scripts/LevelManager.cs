@@ -92,35 +92,45 @@ public class LevelManager : Singleton<LevelManager>
 
     private IEnumerator BeatLevel()
     {
+        this.PlayClipFromPlayer(PlayerManager.Instance.SoundClips.Success);
         int sceneNum = SceneManager.GetActiveScene().buildIndex + 1;
-        PlayerManager.Instance.MaxLevel = Mathf.Max(sceneNum, PlayerManager.Instance.MaxLevel);
-        SerializationManager.Instance.Save();
-
+        PlayerManager.Instance.MaxLevel = Mathf.Max(sceneNum, PlayerManager.Instance.MaxLevel);        
+        int grade = 0;
         if (this.timer <= this.Reqs.AReq)
         {
             // The "A" face
+            grade = 3;
             cube.transform.eulerAngles = new Vector3(0, -90.0f, 0);
         }
         else if (this.timer <= this.Reqs.BReq)
         {
+            grade = 2;
             // The "B" face
             cube.transform.eulerAngles = new Vector3(0, 180.0f, 0);
         }
         else
         {
+            grade = 1;
             // The "C" face
             cube.transform.eulerAngles = new Vector3(0, 0, 0);
         }
 
+        int maxGrade = PlayerManager.Instance.Grades.ContainsKey(sceneNum) ? PlayerManager.Instance.Grades[sceneNum] : 0;
+        PlayerManager.Instance.Grades[sceneNum] = Math.Max(maxGrade, grade);        
         cube.SetActive(true);
         cube.transform.position = new Vector3(-11, 0, -1);
 
+        yield return new WaitForSeconds(0.3f);
         yield return StartCoroutine(SlideTo(cube, new Vector3(0, 0, -1), 2.0f));
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(SlideTo(cube, new Vector3(-1.0f, 0, -1), 5.0f));
         yield return StartCoroutine(SlideTo(cube, new Vector3(11.0f, 0, -1), 5.0f));
 
+        SerializationManager.Instance.Save();
+
         this.ShowEndMenu();
+
+        yield return null;   
     }
 
     public void ShowEndMenu()
